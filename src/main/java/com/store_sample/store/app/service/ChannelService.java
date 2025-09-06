@@ -19,6 +19,9 @@ public class ChannelService {
     public Channel create (Channel channel) {
         return channelDomainService.create(channel);
     }
+    public Channel update (Channel channel) {
+        return channelDomainService.update(channel);
+    }
 
     public List<Channel> findAll () {
         return channelDomainService.findAll();

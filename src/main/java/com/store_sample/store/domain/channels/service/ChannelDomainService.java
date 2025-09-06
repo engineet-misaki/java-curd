@@ -24,6 +24,12 @@ public class ChannelDomainService {
         return channel;
     }
 
+    public Channel update (Channel channel) {
+        channelRepository.update(channel);
+
+        return channel;
+    }
+
     public List<Channel> findAll(){
         return channelRepository.findAll();
     }

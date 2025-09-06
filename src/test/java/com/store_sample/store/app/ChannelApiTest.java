@@ -1,5 +1,7 @@
 package com.store_sample.store.app;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.dbunit.Assertion;
 import org.dbunit.DataSourceDatabaseTester;
 import org.dbunit.IDatabaseTester;
@@ -87,6 +89,43 @@ public class ChannelApiTest {
 
     }
 
+
+
+    @ParameterizedTest
+    @MethodSource("updateTestProvider")
+    public void updateTest(int id, String requestBody, String dbPath) throws Exception {
+
+        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+        var givenUrl = this.getClass().getResource("/channels/update/" + dbPath + "/given/");
+        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+        databaseTester.onSetup();
+
+        var expectedBodyMapper = new ObjectMapper();
+        var expectedNode = expectedBodyMapper.readTree(requestBody);
+        ((ObjectNode) expectedNode).put("id", 1);
+        var expectedBody = expectedNode.toString();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/channels/" + id)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect((result) -> JSONAssert.assertEquals(
+                                expectedBody, result.getResponse().getContentAsString(),false
+                        )
+                );
+
+        var actualDataSet = databaseTester.getConnection().createDataSet();
+        var actualChannelsTable = actualDataSet.getTable("channels");
+        var expectedUri = this.getClass().getResource("/channels/update/" + dbPath + "/expected/");
+        var expectedDataSet = new CsvURLDataSet(expectedUri);
+        var expectedChannelsTable = expectedDataSet.getTable("channels");
+        Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
+    }
+
+
+
     private static Stream<Arguments> createTestProvider() {
         return Stream.of(
 
@@ -134,6 +173,20 @@ public class ChannelApiTest {
                 }
               ]
             """, "multi-record")
+        );
+    }
+
+
+    private static Stream<Arguments> updateTestProvider() {
+        return Stream.of(
+                Arguments.arguments(
+                        1,
+                        """
+                            {
+                              "name": "更新後のチャンネル"
+                            }
+                        """,
+                        "success")
         );
     }
 }

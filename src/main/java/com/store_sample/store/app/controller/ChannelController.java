@@ -24,4 +24,11 @@ public class ChannelController {
     public Channel create (@RequestBody Channel channel) {
         return channelService.create(channel);
     }
+
+    @PutMapping("/{id}")
+    public Channel update (@PathVariable("id") int id, @RequestBody Channel channel) {
+        channel.setId(id);
+
+        return channelService.update(channel);
+    }
 }
