@@ -21,4 +21,9 @@ public class MyBatisMessageRepository implements MessageRepository {
         messageMapper.insert(message);
     }
 
+    @Override
+    public List<Message> find(int channelId, Optional<String> searchWord) {
+        return messageMapper.find(channelId, searchWord);
+    }
+
 }

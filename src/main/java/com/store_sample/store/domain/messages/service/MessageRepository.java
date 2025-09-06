@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface MessageRepository {
     void insert(Message message);
+    List<Message> find(int channelId, Optional<String> searchWord);
 }
