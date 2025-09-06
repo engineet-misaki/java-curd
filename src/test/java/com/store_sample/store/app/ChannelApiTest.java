@@ -59,6 +59,34 @@ public class ChannelApiTest {
     }
 
 
+    @ParameterizedTest
+    @MethodSource("findAllTestProvider")
+    public void findAllTest(String expectedBody, String dbPath) throws Exception {
+
+        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+        var givenUrl = this.getClass().getResource("/channels/findAll/" + dbPath + "/given/");
+        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+        databaseTester.onSetup();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/channels")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect((result) -> JSONAssert.assertEquals(
+                                expectedBody, result.getResponse().getContentAsString(),false
+                        )
+                );
+
+        var actualDataSet = databaseTester.getConnection().createDataSet();
+        var actualChannelsTable = actualDataSet.getTable("channels");
+        var expectedUri = this.getClass().getResource("/channels/findAll/" + dbPath + "/expected/");
+        var expectedDataSet = new CsvURLDataSet(expectedUri);
+        var expectedChannelsTable = expectedDataSet.getTable("channels");
+        Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
+
+    }
+
     private static Stream<Arguments> createTestProvider() {
         return Stream.of(
 
@@ -88,6 +116,24 @@ public class ChannelApiTest {
                             },
                             """,
                         "multi-record")
+        );
+    }
+
+    private static Stream<Arguments> findAllTestProvider() {
+        return Stream.of(
+                Arguments.arguments("[]", "no-record"),
+                Arguments.arguments("""
+              [
+                {
+                  "id": 1,
+                  "name": "はじめてのチャンネル"
+                },
+                {
+                  "id": 2,
+                  "name": "2つ目のチャンネル"
+                }
+              ]
+            """, "multi-record")
         );
     }
 }
