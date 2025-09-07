@@ -22,6 +22,9 @@ public class ChannelService {
     public Channel update (Channel channel) {
         return channelDomainService.update(channel);
     }
+    public void delete (int id) {
+        channelDomainService.delete(id);
+    }
 
     public List<Channel> findAll () {
         return channelDomainService.findAll();

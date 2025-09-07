@@ -31,4 +31,10 @@ public class ChannelController {
 
         return channelService.update(channel);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete (@PathVariable("id") int id) {
+
+        channelService.delete(id);
+    }
 }

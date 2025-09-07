@@ -30,6 +30,10 @@ public class ChannelDomainService {
         return channel;
     }
 
+    public void delete (int id) {
+        channelRepository.delete(id);
+    }
+
     public List<Channel> findAll(){
         return channelRepository.findAll();
     }

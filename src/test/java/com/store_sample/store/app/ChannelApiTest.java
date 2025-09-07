@@ -125,6 +125,37 @@ public class ChannelApiTest {
     }
 
 
+    @ParameterizedTest
+    @MethodSource("deleteTestProvider")
+    public void deleteTest(int id, String dbPath) throws Exception {
+
+        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+        var givenUrl = this.getClass().getResource("/channels/delete/" + dbPath + "/given/");
+        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+        databaseTester.onSetup();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/channels/" + id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+
+        String[] tables = {"channels", "messages"};
+
+        var actualDataSet = databaseTester.getConnection().createDataSet();
+
+        var expectedUri = this.getClass().getResource("/channels/delete/" + dbPath + "/expected/");
+        var expectedDataSet = new CsvURLDataSet(expectedUri);
+
+        for (String table : tables) {
+            var actualTable = actualDataSet.getTable(table);
+            var expectedTable = expectedDataSet.getTable(table);
+            Assertion.assertEquals(expectedTable, actualTable);
+        }
+    }
+
+
 
     private static Stream<Arguments> createTestProvider() {
         return Stream.of(
@@ -188,5 +219,9 @@ public class ChannelApiTest {
                         """,
                         "success")
         );
+    }
+
+    private static Stream<Arguments> deleteTestProvider() {
+        return Stream.of(Arguments.arguments(1, "success"));
     }
 }

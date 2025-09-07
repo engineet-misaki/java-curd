@@ -30,6 +30,11 @@ public class MyBatisChannelRepository implements ChannelRepository {
     }
 
     @Override
+    public void delete(int id) {
+        channelMapper.delete(id);
+    }
+
+    @Override
     public int update(Channel channel) {
         return channelMapper.update(channel);
     }
