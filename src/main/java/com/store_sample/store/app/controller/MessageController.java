@@ -11,7 +11,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/channels/{channelId}/message")
 @RequiredArgsConstructor
-@CrossOrigin
 public class MessageController {
 
     private final MessageService messageService;
