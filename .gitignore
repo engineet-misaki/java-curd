@@ -32,5 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+**/docker-mysql/data/**
+!/docker-mysql/data/**/
+!/docker-mysql/data/**/.gitkeep
+
 **/app.key
 **/app.key.pub
