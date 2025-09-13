@@ -3,6 +3,7 @@ package com.store_sample.store.app.controller;
 import com.store_sample.store.app.service.MessageService;
 import com.store_sample.store.domain.messages.model.Message;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
