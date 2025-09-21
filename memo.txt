@@ -1,5 +1,18 @@
-- 保存時に不要コード削除する設定
+XXX- 保存時に不要コード削除する設定
 - コードフォーマッタの設定
 - 拡張機能調査
 - intelliJの使い方
+- sonnerLInt入れる
 
+- migrationについて
+    - userにuserId持たせる
+    - channelに代表のuserId
+    - messageに投稿者のuserId
+ - 中間テーブル作る
+    - channelに所属ユーザ作る
+    - データ削除
+- フロント作成
+    - ログイン画面
+    - channel一覧
+    - channel登録、詳細、編集、削除
+    - message登録、編集、削除
