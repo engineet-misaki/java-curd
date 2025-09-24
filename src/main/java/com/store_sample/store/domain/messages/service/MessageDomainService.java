@@ -1,35 +1,34 @@
 package com.store_sample.store.domain.messages.service;
 
-import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.messages.model.Message;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MessageDomainService {
-    private final MessageRepository messageRepository;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddhhmm");
+
+  private final MessageRepository messageRepository;
+  private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddhhmm");
 
 
-    public Message post (Message message) {
-        var uuid = UUID.randomUUID();
-        var now = LocalDateTime.now();
-        message.setId(now.format(FORMATTER) + "-" + uuid.toString());
-        message.setTimestamp(now);
+  public Message post(Message message) {
+    var uuid = UUID.randomUUID();
+    var now = LocalDateTime.now();
+    message.setId(now.format(FORMATTER) + "-" + uuid.toString());
+    message.setTimestamp(now);
 
-        messageRepository.insert(message);
+    messageRepository.insert(message);
 
-        return message;
-    }
+    return message;
+  }
 
-    public List<Message> find(int channelId, Optional<String> searchWord) {
-        return messageRepository.find(channelId, searchWord);
-    }
+  public List<Message> find(int channelId, Optional<String> searchWord) {
+    return messageRepository.find(channelId, searchWord);
+  }
 }

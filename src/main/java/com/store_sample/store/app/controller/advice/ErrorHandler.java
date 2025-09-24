@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ErrorHandler {
 
 
-    @ExceptionHandler(TooManyRequestsException.class)
-    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
-    public String handleTooManyRequests(TooManyRequestsException e){
-        log.info("[ログ]流量制御の閾値を超過しました。");
-        return "[レスポンス]流量制御の閾値を超過しました。1ユーザー当たり、1分間に2回までしかメッセージ投稿できません。";
-    }
+  @ExceptionHandler(TooManyRequestsException.class)
+  @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+  public String handleTooManyRequests(TooManyRequestsException e) {
+    log.info("[ログ]流量制御の閾値を超過しました。");
+    return "[レスポンス]流量制御の閾値を超過しました。1ユーザー当たり、1分間に2回までしかメッセージ投稿できません。";
+  }
 
-    @ExceptionHandler(Exception.class)
-    public String handleException(Exception e) {
-        log.error("[log]エラーが発生しました",e);
-        return "[response]エラーが発生しました";
-    }
+  @ExceptionHandler(Exception.class)
+  public String handleException(Exception e) {
+    log.error("[log]エラーが発生しました", e);
+    return "[response]エラーが発生しました";
+  }
 }
