@@ -2,6 +2,8 @@ package com.store_sample.store.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.stream.Stream;
+import javax.sql.DataSource;
 import org.dbunit.Assertion;
 import org.dbunit.DataSourceDatabaseTester;
 import org.dbunit.IDatabaseTester;
@@ -18,181 +20,175 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.sql.DataSource;
-import java.util.stream.Stream;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ChannelApiTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    @Autowired
-    private DataSource dataSource;
+  @Autowired
+  private DataSource dataSource;
 
-    @ParameterizedTest
-    @MethodSource("createTestProvider")
-    public void createTest(String requestBody, String expectedBody, String dbPath) throws Exception {
+  @ParameterizedTest
+  @MethodSource("createTestProvider")
+  public void createTest(String requestBody, String expectedBody, String dbPath) throws Exception {
 
-        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
-        var givenUrl = this.getClass().getResource("/channels/create/" + dbPath + "/given/");
-        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
-        databaseTester.onSetup();
+    IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+    var givenUrl = this.getClass().getResource("/channels/create/" + dbPath + "/given/");
+    databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+    databaseTester.onSetup();
 
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/channels")
-                        .content(requestBody) // contentでリクエストボディを設定する
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect((result) -> JSONAssert.assertEquals(
-                        expectedBody, result.getResponse().getContentAsString(),false
-                )
+    mockMvc.perform(
+            MockMvcRequestBuilders.post("/channels")
+                .content(requestBody) // contentでリクエストボディを設定する
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect((result) -> JSONAssert.assertEquals(
+                expectedBody, result.getResponse().getContentAsString(), false
+            )
         );
 
-        var actualDataSet = databaseTester.getConnection().createDataSet();
-        var actualChannelsTable = actualDataSet.getTable("channels");
-        var expectedUri = this.getClass().getResource("/channels/create/" + dbPath + "/expected/");
-        var expectedDataSet = new CsvURLDataSet(expectedUri);
-        var expectedChannelsTable = expectedDataSet.getTable("channels");
-        Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
+    var actualDataSet = databaseTester.getConnection().createDataSet();
+    var actualChannelsTable = actualDataSet.getTable("channels");
+    var expectedUri = this.getClass().getResource("/channels/create/" + dbPath + "/expected/");
+    var expectedDataSet = new CsvURLDataSet(expectedUri);
+    var expectedChannelsTable = expectedDataSet.getTable("channels");
+    Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
 
-    }
-
-
-    @ParameterizedTest
-    @MethodSource("findAllTestProvider")
-    public void findAllTest(String expectedBody, String dbPath) throws Exception {
-
-        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
-        var givenUrl = this.getClass().getResource("/channels/findAll/" + dbPath + "/given/");
-        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
-        databaseTester.onSetup();
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders.get("/channels")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect((result) -> JSONAssert.assertEquals(
-                                expectedBody, result.getResponse().getContentAsString(),false
-                        )
-                );
-
-        var actualDataSet = databaseTester.getConnection().createDataSet();
-        var actualChannelsTable = actualDataSet.getTable("channels");
-        var expectedUri = this.getClass().getResource("/channels/findAll/" + dbPath + "/expected/");
-        var expectedDataSet = new CsvURLDataSet(expectedUri);
-        var expectedChannelsTable = expectedDataSet.getTable("channels");
-        Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
-
-    }
+  }
 
 
+  @ParameterizedTest
+  @MethodSource("findAllTestProvider")
+  public void findAllTest(String expectedBody, String dbPath) throws Exception {
 
-    @ParameterizedTest
-    @MethodSource("updateTestProvider")
-    public void updateTest(int id, String requestBody, String dbPath) throws Exception {
+    IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+    var givenUrl = this.getClass().getResource("/channels/findAll/" + dbPath + "/given/");
+    databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+    databaseTester.onSetup();
 
-        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
-        var givenUrl = this.getClass().getResource("/channels/update/" + dbPath + "/given/");
-        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
-        databaseTester.onSetup();
-
-        var expectedBodyMapper = new ObjectMapper();
-        var expectedNode = expectedBodyMapper.readTree(requestBody);
-        ((ObjectNode) expectedNode).put("id", 1);
-        var expectedBody = expectedNode.toString();
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders.put("/channels/" + id)
-                                .content(requestBody)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect((result) -> JSONAssert.assertEquals(
-                                expectedBody, result.getResponse().getContentAsString(),false
-                        )
-                );
-
-        var actualDataSet = databaseTester.getConnection().createDataSet();
-        var actualChannelsTable = actualDataSet.getTable("channels");
-        var expectedUri = this.getClass().getResource("/channels/update/" + dbPath + "/expected/");
-        var expectedDataSet = new CsvURLDataSet(expectedUri);
-        var expectedChannelsTable = expectedDataSet.getTable("channels");
-        Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
-    }
-
-
-    @ParameterizedTest
-    @MethodSource("deleteTestProvider")
-    public void deleteTest(int id, String dbPath) throws Exception {
-
-        IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
-        var givenUrl = this.getClass().getResource("/channels/delete/" + dbPath + "/given/");
-        databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
-        databaseTester.onSetup();
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/channels/" + id)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-
-        String[] tables = {"channels", "messages"};
-
-        var actualDataSet = databaseTester.getConnection().createDataSet();
-
-        var expectedUri = this.getClass().getResource("/channels/delete/" + dbPath + "/expected/");
-        var expectedDataSet = new CsvURLDataSet(expectedUri);
-
-        for (String table : tables) {
-            var actualTable = actualDataSet.getTable(table);
-            var expectedTable = expectedDataSet.getTable(table);
-            Assertion.assertEquals(expectedTable, actualTable);
-        }
-    }
-
-
-
-    private static Stream<Arguments> createTestProvider() {
-        return Stream.of(
-
-                Arguments.arguments(
-                        """
-                            {
-                              "name": "はじめてのチャンネル"
-                            }
-                            """,
-                        """
-                            {
-                              "id": 1,
-                              "name": "はじめてのチャンネル"
-                            }
-                              """,
-                        "no-record"),
-                Arguments.arguments(
-                        """
-                            {
-                              "name": "追加チャンネル"
-                            }
-                            """,
-                        """
-                            {
-                              "id": 2,
-                              "name": "追加チャンネル"
-                            },
-                            """,
-                        "multi-record")
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/channels")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect((result) -> JSONAssert.assertEquals(
+                expectedBody, result.getResponse().getContentAsString(), false
+            )
         );
-    }
 
-    private static Stream<Arguments> findAllTestProvider() {
-        return Stream.of(
-                Arguments.arguments("[]", "no-record"),
-                Arguments.arguments("""
+    var actualDataSet = databaseTester.getConnection().createDataSet();
+    var actualChannelsTable = actualDataSet.getTable("channels");
+    var expectedUri = this.getClass().getResource("/channels/findAll/" + dbPath + "/expected/");
+    var expectedDataSet = new CsvURLDataSet(expectedUri);
+    var expectedChannelsTable = expectedDataSet.getTable("channels");
+    Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
+
+  }
+
+
+  @ParameterizedTest
+  @MethodSource("updateTestProvider")
+  public void updateTest(int id, String requestBody, String dbPath) throws Exception {
+
+    IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+    var givenUrl = this.getClass().getResource("/channels/update/" + dbPath + "/given/");
+    databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+    databaseTester.onSetup();
+
+    var expectedBodyMapper = new ObjectMapper();
+    var expectedNode = expectedBodyMapper.readTree(requestBody);
+    ((ObjectNode) expectedNode).put("id", 1);
+    var expectedBody = expectedNode.toString();
+
+    mockMvc.perform(
+            MockMvcRequestBuilders.put("/channels/" + id)
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect((result) -> JSONAssert.assertEquals(
+                expectedBody, result.getResponse().getContentAsString(), false
+            )
+        );
+
+    var actualDataSet = databaseTester.getConnection().createDataSet();
+    var actualChannelsTable = actualDataSet.getTable("channels");
+    var expectedUri = this.getClass().getResource("/channels/update/" + dbPath + "/expected/");
+    var expectedDataSet = new CsvURLDataSet(expectedUri);
+    var expectedChannelsTable = expectedDataSet.getTable("channels");
+    Assertion.assertEquals(expectedChannelsTable, actualChannelsTable);
+  }
+
+
+  @ParameterizedTest
+  @MethodSource("deleteTestProvider")
+  public void deleteTest(int id, String dbPath) throws Exception {
+
+    IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
+    var givenUrl = this.getClass().getResource("/channels/delete/" + dbPath + "/given/");
+    databaseTester.setDataSet(new CsvURLDataSet(givenUrl));
+    databaseTester.onSetup();
+
+    mockMvc.perform(
+            MockMvcRequestBuilders.delete("/channels/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+
+    String[] tables = {"channels", "messages"};
+
+    var actualDataSet = databaseTester.getConnection().createDataSet();
+
+    var expectedUri = this.getClass().getResource("/channels/delete/" + dbPath + "/expected/");
+    var expectedDataSet = new CsvURLDataSet(expectedUri);
+
+    for (String table : tables) {
+      var actualTable = actualDataSet.getTable(table);
+      var expectedTable = expectedDataSet.getTable(table);
+      Assertion.assertEquals(expectedTable, actualTable);
+    }
+  }
+
+
+  private static Stream<Arguments> createTestProvider() {
+    return Stream.of(
+
+        Arguments.arguments(
+            """
+                {
+                  "name": "はじめてのチャンネル"
+                }
+                """,
+            """
+                {
+                  "id": 1,
+                  "name": "はじめてのチャンネル"
+                }
+                """,
+            "no-record"),
+        Arguments.arguments(
+            """
+                {
+                  "name": "追加チャンネル"
+                }
+                """,
+            """
+                {
+                  "id": 2,
+                  "name": "追加チャンネル"
+                },
+                """,
+            "multi-record")
+    );
+  }
+
+  private static Stream<Arguments> findAllTestProvider() {
+    return Stream.of(
+        Arguments.arguments("[]", "no-record"),
+        Arguments.arguments("""
               [
                 {
                   "id": 1,
@@ -204,24 +200,24 @@ public class ChannelApiTest {
                 }
               ]
             """, "multi-record")
-        );
-    }
+    );
+  }
 
 
-    private static Stream<Arguments> updateTestProvider() {
-        return Stream.of(
-                Arguments.arguments(
-                        1,
-                        """
-                            {
-                              "name": "更新後のチャンネル"
-                            }
-                        """,
-                        "success")
-        );
-    }
+  private static Stream<Arguments> updateTestProvider() {
+    return Stream.of(
+        Arguments.arguments(
+            1,
+            """
+                    {
+                      "name": "更新後のチャンネル"
+                    }
+                """,
+            "success")
+    );
+  }
 
-    private static Stream<Arguments> deleteTestProvider() {
-        return Stream.of(Arguments.arguments(1, "success"));
-    }
+  private static Stream<Arguments> deleteTestProvider() {
+    return Stream.of(Arguments.arguments(1, "success"));
+  }
 }

@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService authService;
+  private final AuthService authService;
 
-    @PostMapping("/token")
-    public String token(Authentication authentication) {
-        return authService.issueToken(authentication);
-    }
+  @PostMapping("/token")
+  public String token(Authentication authentication) {
+    return authService.issueToken(authentication);
+  }
 
-    @PostMapping("/signup")
-    public SigninUser signup(@RequestBody SigninUser signinUser) {
-        authService.addUser(signinUser);
-        return signinUser;
-    }
+  @PostMapping("/signup")
+  public SigninUser signup(@RequestBody SigninUser signinUser) {
+    authService.addUser(signinUser);
+    return signinUser;
+  }
 }

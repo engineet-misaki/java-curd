@@ -1,6 +1,7 @@
 package com.store_sample.store.app.service;
 
 import com.store_sample.store.domain.auth.model.SigninUser;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -13,22 +14,20 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final JwtEncoder encoder;
-    private final UserDetailsManager users;
-    private final PasswordEncoder passwordEncoder;
+  private final JwtEncoder encoder;
+  private final UserDetailsManager users;
+  private final PasswordEncoder passwordEncoder;
 
 
-    public String issueToken(Authentication authentication) {
-        Instant now = Instant.now();
+  public String issueToken(Authentication authentication) {
+    Instant now = Instant.now();
 
-        // @formatter:off
+    // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self") // トークン発行者
                 .issuedAt(now) // トークン発行日時
@@ -37,16 +36,16 @@ public class AuthService {
                 .subject(authentication.getName()) // 認証ユーザーの名前
                 .build();
         // @formatter:on
-        return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-    }
+    return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+  }
 
 
-    public void addUser(SigninUser signinUser) {
-        UserDetails user = User.builder()
-                .username(signinUser.getUsername())
-                .password(passwordEncoder.encode(signinUser.getPassword()))
-                .roles("USER")
-                .build();
-        users.createUser(user);
-    }
+  public void addUser(SigninUser signinUser) {
+    UserDetails user = User.builder()
+        .username(signinUser.getUsername())
+        .password(passwordEncoder.encode(signinUser.getPassword()))
+        .roles("USER")
+        .build();
+    users.createUser(user);
+  }
 }

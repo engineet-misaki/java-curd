@@ -1,19 +1,18 @@
 package com.store_sample.store.domain.messages.model;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 public class Message {
 
-    private String id;
+  private String id;
 
-    private int channelId;
+  private int channelId;
 
-    private String text;
+  private String text;
 
-    private String username;
+  private String username;
 
-    private LocalDateTime timestamp;
+  private LocalDateTime timestamp;
 }
