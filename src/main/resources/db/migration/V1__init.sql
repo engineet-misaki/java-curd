@@ -1,4 +1,3 @@
-USE chat;
 
 CREATE TABLE IF NOT EXISTS channels (
   id INT NOT NULL,
