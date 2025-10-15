@@ -44,7 +44,7 @@ public class AuthService {
     UserDetails user = User.builder()
         .username(signinUser.getUsername())
         .password(passwordEncoder.encode(signinUser.getPassword()))
-        .roles("USER")
+        .roles(signinUser.getRole())
         .build();
     users.createUser(user);
   }
