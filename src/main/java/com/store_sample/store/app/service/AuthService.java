@@ -1,16 +1,14 @@
 package com.store_sample.store.app.service;
 
-import com.store_sample.store.domain.auth.model.SigninUser;
+import com.store_sample.store.domain.users.model.SigninUser;
+import com.store_sample.store.domain.users.service.UserDomainService;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
   private final JwtEncoder encoder;
-  private final UserDetailsManager users;
+  private final UserDomainService users;
   private final PasswordEncoder passwordEncoder;
 
 
@@ -41,11 +39,6 @@ public class AuthService {
 
 
   public void addUser(SigninUser signinUser) {
-    UserDetails user = User.builder()
-        .username(signinUser.getUsername())
-        .password(passwordEncoder.encode(signinUser.getPassword()))
-        .roles(signinUser.getRole())
-        .build();
-    users.createUser(user);
+    users.save(signinUser);
   }
 }

@@ -1,4 +1,4 @@
-package com.store_sample.store.domain.auth.model;
+package com.store_sample.store.domain.users.model;
 
 import lombok.Data;
 

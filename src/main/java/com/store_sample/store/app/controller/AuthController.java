@@ -1,7 +1,7 @@
 package com.store_sample.store.app.controller;
 
 import com.store_sample.store.app.service.AuthService;
-import com.store_sample.store.domain.auth.model.SigninUser;
+import com.store_sample.store.domain.users.model.SigninUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
