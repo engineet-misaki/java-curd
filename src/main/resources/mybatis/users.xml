@@ -5,8 +5,8 @@
 <mapper namespace="com.store_sample.store.infrastructure.users.UserMapper">
   <insert id="insert" parameterType="com.store_sample.store.domain.users.model.SigninUser">
     INSERT INTO users
-    (id, name, password, role)
+    (username, password, role, enabled)
     VALUES
-    (#{id}, #{name}, #{password}, #{role})
+    (#{username}, #{password}, #{role}, #{enabled})
   </insert>
 </mapper>

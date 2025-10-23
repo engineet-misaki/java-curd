@@ -39,6 +39,7 @@ public class AuthService {
 
 
   public void addUser(SigninUser signinUser) {
+    signinUser.setEnabled(true);
     users.save(signinUser);
   }
 }
