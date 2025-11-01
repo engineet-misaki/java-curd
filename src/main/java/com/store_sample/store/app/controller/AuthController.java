@@ -32,7 +32,7 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+  public ResponseEntity<?> login(@RequestBody LoginRequest request) throws Exception {
     // username/passwordで認証チェック
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
