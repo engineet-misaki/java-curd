@@ -78,7 +78,7 @@ public class AppConfig {
       CustomUserDetailsService userDetailsService) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/hello", "/auth/signup").permitAll()
+            .requestMatchers("/hello", "/auth/**").permitAll()
             .requestMatchers("/auth/token").authenticated()
             .anyRequest().authenticated())
         .userDetailsService(userDetailsService)

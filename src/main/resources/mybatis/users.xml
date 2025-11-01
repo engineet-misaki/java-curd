@@ -9,4 +9,8 @@
     VALUES
     (#{username}, #{password}, #{role}, #{enabled})
   </insert>
+  <select id="find" resultType="com.store_sample.store.domain.users.model.SigninUser">
+    SELECT * FROM users
+    WHERE username = #{name}
+  </select>
 </mapper>
