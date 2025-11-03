@@ -1,4 +1,4 @@
-package com.store_sample.store.app.service;
+package com.store_sample.store.app.service.channel;
 
 import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;

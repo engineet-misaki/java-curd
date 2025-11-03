@@ -1,4 +1,4 @@
-package com.store_sample.store.domain.auth.dto;
+package com.store_sample.store.app.controller.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class LoginReq {
 
   private String username;
   private String password;

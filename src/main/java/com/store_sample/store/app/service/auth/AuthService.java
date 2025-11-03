@@ -1,4 +1,4 @@
-package com.store_sample.store.app.service;
+package com.store_sample.store.app.service.auth;
 
 import com.store_sample.store.domain.users.model.SigninUser;
 import com.store_sample.store.domain.users.service.UserDomainService;

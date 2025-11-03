@@ -1,6 +1,6 @@
-package com.store_sample.store.app.controller;
+package com.store_sample.store.app.controller.message;
 
-import com.store_sample.store.app.service.MessageService;
+import com.store_sample.store.app.service.message.MessageService;
 import com.store_sample.store.domain.messages.model.Message;
 import java.util.List;
 import java.util.Optional;

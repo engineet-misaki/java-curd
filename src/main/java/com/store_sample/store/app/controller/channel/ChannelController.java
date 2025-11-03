@@ -1,6 +1,6 @@
-package com.store_sample.store.app.controller;
+package com.store_sample.store.app.controller.channel;
 
-import com.store_sample.store.app.service.ChannelService;
+import com.store_sample.store.app.service.channel.ChannelService;
 import com.store_sample.store.domain.channels.model.Channel;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

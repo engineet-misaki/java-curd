@@ -1,8 +1,8 @@
-package com.store_sample.store.app.controller;
+package com.store_sample.store.app.controller.auth;
 
-import com.store_sample.store.app.service.AuthService;
-import com.store_sample.store.domain.auth.dto.JwtResponse;
-import com.store_sample.store.domain.auth.dto.LoginRequest;
+import com.store_sample.store.app.controller.auth.dto.JwtRes;
+import com.store_sample.store.app.controller.auth.dto.LoginReq;
+import com.store_sample.store.app.service.auth.AuthService;
 import com.store_sample.store.domain.auth.service.CustomUserDetailsService;
 import com.store_sample.store.domain.auth.service.JwtService;
 import com.store_sample.store.domain.users.model.SigninUser;
@@ -32,7 +32,7 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest request) throws Exception {
+  public ResponseEntity<?> login(@RequestBody LoginReq request) throws Exception {
     // username/passwordで認証チェック
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
@@ -44,7 +44,7 @@ public class AuthController {
     // JWT発行
     String token = jwtService.generateToken(user);
 
-    return ResponseEntity.ok(new JwtResponse(token));
+    return ResponseEntity.ok(new JwtRes(token));
   }
 
   @PostMapping("/signup")
