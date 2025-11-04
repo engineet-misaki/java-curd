@@ -1,15 +1,21 @@
 package com.store_sample.store.domain.auth.model;
 
 import java.util.Collection;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Data
 public class CustomUserDetails implements UserDetails {
 
-  private final String username;
-  private final String password;
-  private final String role;
-  private final Collection<? extends GrantedAuthority> authorities;
+  private Integer id;
+  private String username;
+  private String password;
+  private String role;
+  private Collection<? extends GrantedAuthority> authorities;
+
+  public CustomUserDetails() {
+  }
 
   public CustomUserDetails(String username, String password, String role,
       Collection<? extends GrantedAuthority> authorities) {
@@ -18,11 +24,7 @@ public class CustomUserDetails implements UserDetails {
     this.role = role;
     this.authorities = authorities;
   }
-
-  public String getRole() {
-    return role;
-  }
-
+  
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities;

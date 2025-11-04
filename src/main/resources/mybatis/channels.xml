@@ -9,9 +9,24 @@
     VALUES
     (#{id}, #{name})
   </insert>
-  <select id="findAll" resultType="com.store_sample.store.domain.channels.model.Channel">
+
+  <select id="findAll" resultMap="ChannelWithUsersResultMap">
     SELECT * FROM channels
+    JOIN channel_members ON channel_members.channel_id = channels.id
+    JOIN users ON channel_members.user_id = users.id
   </select>
+  <resultMap id="ChannelWithUsersResultMap"
+    type="com.store_sample.store.domain.channels.model.Channel">
+    <id property="id" column="channel_id"/>
+    <result property="name" column="channel_name"/>
+    <collection property="userDetails"
+      ofType="com.store_sample.store.domain.auth.model.CustomUserDetails">
+      <id property="id" column="user_id"/>
+      <result property="username" column="user_username"/>
+    </collection>
+  </resultMap>
+
+
   <select id="getMaxId" resultType="int">
     SELECT MAX(id) AS max_id FROM channels
   </select>
