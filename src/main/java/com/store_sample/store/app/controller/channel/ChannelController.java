@@ -1,7 +1,7 @@
 package com.store_sample.store.app.controller.channel;
 
-import com.store_sample.store.app.service.channel.ChannelService;
 import com.store_sample.store.domain.channels.model.Channel;
+import com.store_sample.store.service.channel.ChannelService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

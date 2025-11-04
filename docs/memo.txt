@@ -4,10 +4,10 @@
     - userにuserId持たせる
     - channelに代表のuserId
     - messageに投稿者のuserId
- - 中間テーブル作る
-    - channelに所属ユーザ作る
-    - データ削除
 - フォルダ構造変更
+    - auth
+    - channel
+    - message
 - JPAにきりかえ
 
 - フロント作成

@@ -1,4 +1,4 @@
-package com.store_sample.store.app.service.message;
+package com.store_sample.store.service.message;
 
 import com.store_sample.store.app.exception.TooManyRequestsException;
 import com.store_sample.store.domain.messages.model.Message;

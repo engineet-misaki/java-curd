@@ -1,7 +1,7 @@
 package com.store_sample.store.app.controller.message;
 
-import com.store_sample.store.app.service.message.MessageService;
 import com.store_sample.store.domain.messages.model.Message;
+import com.store_sample.store.service.message.MessageService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
