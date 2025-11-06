@@ -1,7 +1,11 @@
 package com.store_sample.store.app.controller.channel;
 
+import com.store_sample.store.app.controller.channel.dto.create.CreateChannelReq;
+import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes;
 import com.store_sample.store.domain.channels.model.Channel;
+import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.ChannelService;
+import com.store_sample.store.service.channel.command.CreateChannelCommand;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +30,16 @@ public class ChannelController {
   }
 
   @PostMapping
-  public Channel create(@RequestBody Channel channel) {
-    return channelService.create(channel);
+  public CreateChannelRes create(@RequestBody CreateChannelReq request) {
+    CreateChannelCommand command = new CreateChannelCommand();
+    command.setName(request.getName());
+    TblChannels result = channelService.create(command);
+
+    CreateChannelRes res = new CreateChannelRes();
+    res.setId(result.getId());
+    res.setName(result.getName());
+
+    return res;
   }
 
   @PutMapping("/{id}")
