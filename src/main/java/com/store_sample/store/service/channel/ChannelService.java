@@ -2,6 +2,7 @@ package com.store_sample.store.service.channel;
 
 import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
+import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
@@ -31,7 +32,7 @@ public class ChannelService {
     channelDomainService.delete(id);
   }
 
-  public List<Channel> findAll() {
+  public List<FindAllChannelModel> findAll() {
     return channelDomainService.findAll();
   }
 }

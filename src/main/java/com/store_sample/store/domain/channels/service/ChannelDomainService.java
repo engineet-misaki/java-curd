@@ -2,6 +2,7 @@ package com.store_sample.store.domain.channels.service;
 
 import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
+import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class ChannelDomainService {
     channelRepository.delete(id);
   }
 
-  public List<Channel> findAll() {
+  public List<FindAllChannelModel> findAll() {
     return channelRepository.findAll();
   }
 

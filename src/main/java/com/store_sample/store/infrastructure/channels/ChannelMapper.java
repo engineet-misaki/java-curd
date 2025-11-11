@@ -1,6 +1,7 @@
 package com.store_sample.store.infrastructure.channels;
 
 import com.store_sample.store.domain.channels.model.Channel;
+import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,9 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ChannelMapper {
 
-  void insert(Channel channel);
+  void insert(TblChannels channel);
 
-  List<Channel> findAll();
+  List<FindAllChannelModel> findAll();
 
   Optional<Integer> getMaxId();
 

@@ -3,6 +3,7 @@ package com.store_sample.store.app.controller.channel;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes;
 import com.store_sample.store.domain.channels.model.Channel;
+import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.ChannelService;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
@@ -25,7 +26,7 @@ public class ChannelController {
   private final ChannelService channelService;
 
   @GetMapping
-  public List<Channel> findAll() {
+  public List<FindAllChannelModel> findAll() {
     return channelService.findAll();
   }
 
