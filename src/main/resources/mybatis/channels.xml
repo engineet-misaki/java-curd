@@ -16,7 +16,7 @@
     JOIN users ON channel_members.user_id = users.id
   </select>
   <resultMap id="ChannelWithUsersResultMap"
-    type="com.store_sample.store.domain.channels.model.Channel">
+    type="com.store_sample.store.domain.channels.model.FindAllChannelModel">
     <id property="id" column="channel_id"/>
     <result property="name" column="channel_name"/>
     <collection property="userDetails"
