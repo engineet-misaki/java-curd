@@ -3,13 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.store_sample.store.infrastructure.users.UserMapper">
-  <insert id="insert" parameterType="com.store_sample.store.domain.users.model.SigninUser">
+  <insert id="insert" parameterType="com.store_sample.store.domain.users.model.CreateUserModel">
     INSERT INTO users
     (username, password, role, enabled)
     VALUES
     (#{username}, #{password}, #{role}, #{enabled})
   </insert>
-  <select id="find" resultType="com.store_sample.store.domain.users.model.SigninUser">
+  <select id="findWithPassword"
+    resultType="com.store_sample.store.domain.users.model.DetailUserWithPasswordModel">
     SELECT * FROM users
     WHERE username = #{name}
   </select>

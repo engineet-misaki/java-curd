@@ -7,5 +7,5 @@ public class CreateChannelRes {
 
   private int id;
   private String name;
-  
+
 }

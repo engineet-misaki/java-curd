@@ -4,7 +4,7 @@ import com.store_sample.store.app.controller.auth.dto.JwtRes;
 import com.store_sample.store.app.controller.auth.dto.LoginReq;
 import com.store_sample.store.domain.auth.service.CustomUserDetailsService;
 import com.store_sample.store.domain.auth.service.JwtService;
-import com.store_sample.store.domain.users.model.SigninUser;
+import com.store_sample.store.domain.users.model.CreateUserModel;
 import com.store_sample.store.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +48,8 @@ public class AuthController {
   }
 
   @PostMapping("/signup")
-  public SigninUser signup(@RequestBody SigninUser signinUser) {
-    authService.addUser(signinUser);
-    return signinUser;
+  public CreateUserModel signup(@RequestBody CreateUserModel createUserModel) {
+    authService.addUser(createUserModel);
+    return createUserModel;
   }
 }

@@ -1,6 +1,7 @@
 package com.store_sample.store.domain.users.service;
 
-import com.store_sample.store.domain.users.model.SigninUser;
+import com.store_sample.store.domain.users.model.CreateUserModel;
+import com.store_sample.store.domain.users.model.DetailUserWithPasswordModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +11,13 @@ public class UserDomainService {
 
   private final UserRepository userRepository;
 
-  public SigninUser save(SigninUser user) {
+  public CreateUserModel save(CreateUserModel user) {
     userRepository.insert(user);
 
     return user;
   }
 
-  public SigninUser find(String name) {
-    return userRepository.find(name);
+  public DetailUserWithPasswordModel findWithPassword(String name) {
+    return userRepository.findWithPassword(name);
   }
 }

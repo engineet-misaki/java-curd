@@ -34,11 +34,11 @@ public class ChannelController {
   public CreateChannelRes create(@RequestBody CreateChannelReq request) {
     CreateChannelCommand command = new CreateChannelCommand();
     command.setName(request.getName());
-    TblChannels result = channelService.create(command);
+    TblChannels entity = channelService.create(command);
 
     CreateChannelRes res = new CreateChannelRes();
-    res.setId(result.getId());
-    res.setName(result.getName());
+    res.setId(entity.getId());
+    res.setName(entity.getName());
 
     return res;
   }

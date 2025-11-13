@@ -4,15 +4,17 @@ import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 @Data
-public class SigninUser {
+public class DetailUserModel {
+
+  public DetailUserModel() {
+  }
+
+  @NotNull
+  private Integer id;
 
   @NotNull
   private String username;
 
-  @NotNull
-  private String password;
-
-  @NotNull
   private String role;
 
   private Boolean enabled;

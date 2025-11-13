@@ -1,12 +1,13 @@
 package com.store_sample.store.infrastructure.users;
 
-import com.store_sample.store.domain.users.model.SigninUser;
+import com.store_sample.store.domain.users.model.CreateUserModel;
+import com.store_sample.store.domain.users.model.DetailUserWithPasswordModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
 
-  void insert(SigninUser user);
+  void insert(CreateUserModel user);
 
-  SigninUser find(String name);
+  DetailUserWithPasswordModel findWithPassword(String name);
 }

@@ -21,7 +21,7 @@ public class JwtService {
     return Jwts.builder()
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1時間
+        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1日
         .signWith(getSignKey(), SignatureAlgorithm.RS256)
         .compact();
   }

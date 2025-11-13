@@ -1,6 +1,6 @@
 package com.store_sample.store.service.auth;
 
-import com.store_sample.store.domain.users.model.SigninUser;
+import com.store_sample.store.domain.users.model.CreateUserModel;
 import com.store_sample.store.domain.users.service.UserDomainService;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +38,10 @@ public class AuthService {
   }
 
 
-  public void addUser(SigninUser signinUser) {
+  public void addUser(CreateUserModel createUserModel) {
 
-    SigninUser user = new SigninUser(signinUser.getUsername(),
-        passwordEncoder.encode(signinUser.getPassword()),
+    CreateUserModel user = new CreateUserModel(createUserModel.getUsername(),
+        passwordEncoder.encode(createUserModel.getPassword()),
         "USER");
     user.setEnabled(true);
     users.save(user);

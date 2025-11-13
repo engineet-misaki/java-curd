@@ -16,10 +16,6 @@ public class ChannelDomainService {
 
 
   public TblChannels create(CreateChannelModel model) {
-//    auto incrementするように修正する
-//    var currentMaxId = channelRepository.getMaxId();
-//    var newId = currentMaxId.orElse(0) + 1;
-//    channel.setId(newId);
     TblChannels entity = new TblChannels();
     entity.setName(model.getName());
 

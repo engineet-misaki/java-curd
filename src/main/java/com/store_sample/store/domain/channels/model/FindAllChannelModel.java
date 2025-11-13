@@ -1,6 +1,6 @@
 package com.store_sample.store.domain.channels.model;
 
-import com.store_sample.store.domain.auth.model.CustomUserDetails;
+import com.store_sample.store.domain.users.model.DetailUserModel;
 import java.util.List;
 import lombok.Data;
 
@@ -9,5 +9,5 @@ public class FindAllChannelModel {
 
   private int id;
   private String name;
-  private List<CustomUserDetails> userDetails;
+  private List<DetailUserModel> userDetails;
 }

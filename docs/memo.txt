@@ -8,6 +8,10 @@
     - auth
     - channel
     - message
+
+- channelsについて
+    - update, delete更新
+    - メンバー追加
 - JPAにきりかえ
 
 - フロント作成
