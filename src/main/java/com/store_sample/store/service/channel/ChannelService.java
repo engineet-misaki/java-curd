@@ -1,11 +1,12 @@
 package com.store_sample.store.service.channel;
 
-import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
+import com.store_sample.store.domain.channels.model.UpdateChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
+import com.store_sample.store.service.channel.command.UpdateChannelCommand;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,11 @@ public class ChannelService {
     return channelDomainService.create(model);
   }
 
-  public Channel update(Channel channel) {
-    return channelDomainService.update(channel);
+  public TblChannels update(UpdateChannelCommand channel) {
+    UpdateChannelModel model = new UpdateChannelModel();
+    model.setId(channel.getId());
+    model.setName(channel.getName());
+    return channelDomainService.update(model);
   }
 
   public void delete(int id) {

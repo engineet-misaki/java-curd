@@ -1,6 +1,5 @@
 package com.store_sample.store.infrastructure.channels;
 
-import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelRepository;
 import java.util.List;
@@ -35,7 +34,7 @@ public class MyBatisChannelRepository implements ChannelRepository {
   }
 
   @Override
-  public int update(Channel channel) {
-    return channelMapper.update(channel);
+  public void update(TblChannels channel) {
+    channelMapper.update(channel);
   }
 }

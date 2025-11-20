@@ -32,11 +32,8 @@
     </collection>
   </resultMap>
 
-
-  <select id="getMaxId" resultType="int">
-    SELECT MAX(id) AS max_id FROM channels
-  </select>
-  <update id="update" parameterType="com.store_sample.store.domain.channels.model.Channel">
+  <update id="update"
+    parameterType="com.store_sample.store.domain.channels.model.UpdateChannelModel">
     UPDATE channels SET
     name = #{name}
     WHERE

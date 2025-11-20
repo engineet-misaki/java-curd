@@ -1,6 +1,5 @@
 package com.store_sample.store.infrastructure.channels;
 
-import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,7 @@ public interface ChannelMapper {
 
   Optional<Integer> getMaxId();
 
-  int update(Channel channel);
+  void update(TblChannels channel);
 
   void delete(int id);
 }

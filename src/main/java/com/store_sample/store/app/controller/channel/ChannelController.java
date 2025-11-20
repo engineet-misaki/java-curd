@@ -2,11 +2,13 @@ package com.store_sample.store.app.controller.channel;
 
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes;
-import com.store_sample.store.domain.channels.model.Channel;
+import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelReq;
+import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelRes;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.ChannelService;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
+import com.store_sample.store.service.channel.command.UpdateChannelCommand;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,10 +46,19 @@ public class ChannelController {
   }
 
   @PutMapping("/{id}")
-  public Channel update(@PathVariable("id") int id, @RequestBody Channel channel) {
-    channel.setId(id);
+  public UpdateChannelRes update(@PathVariable("id") int id,
+      @RequestBody UpdateChannelReq request) {
+    UpdateChannelCommand command = new UpdateChannelCommand();
+    command.setId(id);
+    command.setName(request.getName());
 
-    return channelService.update(channel);
+    TblChannels entity = channelService.update(command);
+
+    UpdateChannelRes res = new UpdateChannelRes();
+    res.setId(entity.getId());
+    res.setName(entity.getName());
+
+    return res;
   }
 
   @DeleteMapping("/{id}")

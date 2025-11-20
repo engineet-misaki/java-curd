@@ -1,6 +1,5 @@
 package com.store_sample.store.domain.channels.service;
 
-import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import java.util.List;
@@ -14,7 +13,7 @@ public interface ChannelRepository {
 
   Optional<Integer> getMaxId();
 
-  int update(Channel channel);
+  void update(TblChannels channel);
 
   void delete(int id);
 }

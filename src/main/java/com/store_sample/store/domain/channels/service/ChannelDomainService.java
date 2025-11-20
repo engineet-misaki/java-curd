@@ -1,8 +1,8 @@
 package com.store_sample.store.domain.channels.service;
 
-import com.store_sample.store.domain.channels.model.Channel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
+import com.store_sample.store.domain.channels.model.UpdateChannelModel;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,13 @@ public class ChannelDomainService {
     return entity;
   }
 
-  public Channel update(Channel channel) {
-    channelRepository.update(channel);
+  public TblChannels update(UpdateChannelModel model) {
+    TblChannels entity = new TblChannels();
+    entity.setId(model.getId());
+    entity.setName(model.getName());
+    channelRepository.update(entity);
 
-    return channel;
+    return entity;
   }
 
   public void delete(int id) {
