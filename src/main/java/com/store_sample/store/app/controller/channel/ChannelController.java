@@ -5,6 +5,7 @@ import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelRes;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
+import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.ChannelService;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChannelController {
 
   private final ChannelService channelService;
+  private final ChannelDomainService channelDomainService;
 
   @GetMapping
   public List<FindAllChannelModel> findAll() {
@@ -65,5 +67,11 @@ public class ChannelController {
   public void delete(@PathVariable("id") int id) {
 
     channelService.delete(id);
+  }
+
+  @GetMapping("/{id}")
+  public List<TblChannels> findById(@PathVariable("id") int id) {
+
+    return channelService.findById(id);
   }
 }

@@ -3,6 +3,7 @@ package com.store_sample.store.domain.channels.service;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.model.UpdateChannelModel;
+import com.store_sample.store.infrastructure.channels.JpaChannelRepository;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class ChannelDomainService {
 
   private final ChannelRepository channelRepository;
+  private final JpaChannelRepository JpaChannelRepository;
 
 
   public TblChannels create(CreateChannelModel model) {
@@ -41,4 +43,7 @@ public class ChannelDomainService {
     return channelRepository.findAll();
   }
 
+  public List<TblChannels> findById(int id) {
+    return JpaChannelRepository.findById(id);
+  }
 }

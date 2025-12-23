@@ -39,4 +39,8 @@ public class ChannelService {
   public List<FindAllChannelModel> findAll() {
     return channelDomainService.findAll();
   }
+
+  public List<TblChannels> findById(int id) {
+    return channelDomainService.findById(id);
+  }
 }

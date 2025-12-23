@@ -1,6 +1,6 @@
-package com.store_sample.store.infrastructure.channels;
+package com.store_sample.store.infrastructure.users;
 
-import com.store_sample.store.infrastructure.users.TblUsers;
+import com.store_sample.store.infrastructure.channels.TblChannels;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,27 +15,37 @@ import java.util.List;
 import lombok.Data;
 
 @Entity
-@Table(name = "CHANNELS")
+@Table(name = "USERS")
 @Data
-public class TblChannels {
+public class TblUsers {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
-  @Column(name = "name", nullable = false, length = 30)
-  private String name;
+  @Column(name = "username", nullable = false, length = 50)
+  private String username;
+
+  @Column(name = "password", nullable = false, length = 500)
+  private String password;
+
+  @Column(name = "enabled", nullable = false)
+  private Boolean enabled;
+
+  @Column(name = "role", nullable = true)
+  private String role;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "channel_members",
       joinColumns = {
-          @JoinColumn(name = "channel_id", referencedColumnName = "id")
+          @JoinColumn(name = "user_id", referencedColumnName = "id")
       },
       inverseJoinColumns = {
-          @JoinColumn(name = "user_id", referencedColumnName = "id")
+          @JoinColumn(name = "channel_id", referencedColumnName = "id")
       }
   )
-  private List<TblUsers> users;
+  private List<TblChannels> users;
+
 }
