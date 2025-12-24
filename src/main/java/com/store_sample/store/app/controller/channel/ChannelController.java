@@ -1,5 +1,7 @@
 package com.store_sample.store.app.controller.channel;
 
+import com.store_sample.store.app.controller.channel.dto.add_user.AddUserReq;
+import com.store_sample.store.app.controller.channel.dto.add_user.AddUserRes;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes;
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelReq;
@@ -8,6 +10,7 @@ import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.ChannelService;
+import com.store_sample.store.service.channel.command.ChannelAddedUserCommand;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
 import com.store_sample.store.service.channel.command.UpdateChannelCommand;
 import java.util.List;
@@ -73,5 +76,17 @@ public class ChannelController {
   public List<TblChannels> findById(@PathVariable("id") int id) {
 
     return channelService.findById(id);
+  }
+
+  @PostMapping("/{id}/add-user")
+  public AddUserRes addUser(@PathVariable("id") int id, @RequestBody AddUserReq request) {
+    ChannelAddedUserCommand command = new ChannelAddedUserCommand();
+    command.setChannelId(id);
+    command.setUserIds(request.getUserIds());
+    channelService.channelAddedUser(command);
+
+    AddUserRes res = new AddUserRes();
+    res.setMsg("成功");
+    return res;
   }
 }

@@ -1,10 +1,12 @@
 package com.store_sample.store.service.channel;
 
+import com.store_sample.store.domain.channels.model.ChannelAddedUserModel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.model.UpdateChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
+import com.store_sample.store.service.channel.command.ChannelAddedUserCommand;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
 import com.store_sample.store.service.channel.command.UpdateChannelCommand;
 import java.util.List;
@@ -42,5 +44,12 @@ public class ChannelService {
 
   public List<TblChannels> findById(int id) {
     return channelDomainService.findById(id);
+  }
+
+  public void channelAddedUser(ChannelAddedUserCommand command) {
+    ChannelAddedUserModel model = new ChannelAddedUserModel();
+    model.setChannelId(command.getChannelId());
+    model.setUserIds(command.getUserIds());
+    channelDomainService.channelAddedUser(model);
   }
 }
