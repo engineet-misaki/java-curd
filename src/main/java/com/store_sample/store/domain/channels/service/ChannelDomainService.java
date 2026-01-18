@@ -1,5 +1,7 @@
 package com.store_sample.store.domain.channels.service;
 
+import com.store_sample.store.app.controller.exception.ResponseCode;
+import com.store_sample.store.app.controller.exception.StopProcessingException;
 import com.store_sample.store.domain.channels.model.ChannelAddedUserModel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
@@ -47,16 +49,31 @@ public class ChannelDomainService {
     return channelRepository.findAll();
   }
 
-  public List<TblChannels> findById(int id) {
-    return JpaChannelRepository.findById(id);
+  public TblChannels findById(int id) {
+    return JpaChannelRepository.findById(id).orElse(null);
   }
 
   public void channelAddedUser(ChannelAddedUserModel model) {
     model.getUserIds().forEach(userId -> {
-      TblChannelMembers entity = new TblChannelMembers();
-      entity.setChannelId(model.getChannelId());
-      entity.setUserId(userId);
-      JpaChannelMemberRepository.save(entity);
+//      TblChannelMembers entity = new TblChannelMembers();
+//      entity.setChannelId(model.getChannelId());
+//      entity.setUserId(userId);
+//      JpaChannelMemberRepository.save(entity);
+    });
+  }
+
+  public void checkDuplicateUser(int channelId, List<Integer> userList) {
+    TblChannels channel = JpaChannelRepository.findById(channelId).orElse(null);
+    if (channel == null) {
+      throw new StopProcessingException(ResponseCode.CHANNEL_NOT_FOUND);
+    }
+    List<TblChannelMembers> members = JpaChannelMemberRepository.findByChannelId(channelId);
+    userList.forEach(userId -> {
+//      if (!members.stream().map(TblChannelMembers::getUserId).toList().contains(userId)) {
+//        // TODO ユーザ検索してユーザの存在チェックとユーザ名使用する
+//        throw new StopProcessingException(ResponseCode.DUPLICATE_CHANNEL_MEMBER,
+//            "チャンネル名:" + channel.getName(), "ユーザー名:" + userId);
+//      }
     });
   }
 }

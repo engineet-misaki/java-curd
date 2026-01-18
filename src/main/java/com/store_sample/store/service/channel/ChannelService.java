@@ -1,5 +1,7 @@
 package com.store_sample.store.service.channel;
 
+import com.store_sample.store.app.controller.channel.dto.get.GetChannelRes;
+import com.store_sample.store.app.controller.channel.dto.get.MemberResponse;
 import com.store_sample.store.domain.channels.model.ChannelAddedUserModel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
@@ -42,11 +44,26 @@ public class ChannelService {
     return channelDomainService.findAll();
   }
 
-  public List<TblChannels> findById(int id) {
-    return channelDomainService.findById(id);
+  public GetChannelRes findById(int id) {
+    TblChannels channel = channelDomainService.findById(id);
+    GetChannelRes res = new GetChannelRes();
+    res.setId(channel.getId());
+    res.setName(channel.getName());
+
+    res.setMembers(channel.getChannelMembers().stream()
+        .map(m -> new MemberResponse(
+            m.getUser().getId(),
+            m.getUser().getUsername()
+        ))
+        .toList());
+    return res;
   }
 
+  @Transactional
   public void channelAddedUser(ChannelAddedUserCommand command) {
+
+    channelDomainService.checkDuplicateUser(command.getChannelId(), command.getUserIds());
+
     ChannelAddedUserModel model = new ChannelAddedUserModel();
     model.setChannelId(command.getChannelId());
     model.setUserIds(command.getUserIds());

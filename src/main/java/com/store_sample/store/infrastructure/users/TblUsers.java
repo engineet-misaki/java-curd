@@ -1,22 +1,25 @@
 package com.store_sample.store.infrastructure.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.store_sample.store.infrastructure.channel_members.TblChannelMembers;
 import com.store_sample.store.infrastructure.channels.TblChannels;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
-import lombok.Data;
+import java.util.HashSet;
+import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "USERS")
-@Data
+@Getter
+@Setter
 public class TblUsers {
 
   @Id
@@ -36,16 +39,21 @@ public class TblUsers {
   @Column(name = "role", nullable = true)
   private String role;
 
-  @OneToMany(fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "channel_members",
-      joinColumns = {
-          @JoinColumn(name = "user_id", referencedColumnName = "id")
-      },
-      inverseJoinColumns = {
-          @JoinColumn(name = "channel_id", referencedColumnName = "id")
-      }
+  @OneToMany(
+      mappedBy = "user",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true
   )
-  private List<TblChannels> users;
+  @JsonIgnore
+  private Set<TblChannelMembers> channelMembers = new HashSet<>();
 
+  public void joinChannel(TblChannels channel) {
+    TblChannelMembers member = new TblChannelMembers(this, channel);
+    channelMembers.add(member);
+    channel.getChannelMembers().add(member);
+  }
+
+  public void leaveChannel(TblChannels channel) {
+    channelMembers.removeIf(m -> m.getChannel().equals(channel));
+  }
 }

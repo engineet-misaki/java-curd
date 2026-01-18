@@ -4,6 +4,7 @@ import com.store_sample.store.app.controller.channel.dto.add_user.AddUserReq;
 import com.store_sample.store.app.controller.channel.dto.add_user.AddUserRes;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes;
+import com.store_sample.store.app.controller.channel.dto.get.GetChannelRes;
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelRes;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
@@ -73,7 +74,7 @@ public class ChannelController {
   }
 
   @GetMapping("/{id}")
-  public List<TblChannels> findById(@PathVariable("id") int id) {
+  public GetChannelRes findById(@PathVariable("id") int id) {
 
     return channelService.findById(id);
   }
