@@ -1,5 +1,6 @@
 package com.store_sample.store.app.controller.advice;
 
+import com.store_sample.store.app.controller.exception.StopProcessingException;
 import com.store_sample.store.app.exception.TooManyRequestsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,14 @@ public class ErrorHandler {
 
   @ExceptionHandler(Exception.class)
   public String handleException(Exception e) {
-    log.error("[log]エラーが発生しました", e);
+    log.error("[log]エラーが発生しました", e.getMessage());
     return "[response]エラーが発生しました";
+  }
+
+  @ExceptionHandler(StopProcessingException.class)
+  public String handleStopProcessingException(StopProcessingException e) {
+    log.error("[log]StopProcessingExceptionが発生しました", e.getMessage());
+
+    return e.getMessage();
   }
 }

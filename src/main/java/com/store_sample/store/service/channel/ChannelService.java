@@ -1,14 +1,18 @@
 package com.store_sample.store.service.channel;
 
-import com.store_sample.store.app.controller.channel.dto.get.GetChannelRes;
-import com.store_sample.store.app.controller.channel.dto.get.MemberResponse;
+import com.store_sample.store.app.controller.exception.ResponseCode;
+import com.store_sample.store.app.controller.exception.StopProcessingException;
+import com.store_sample.store.domain.channel_members.model.ChannelMemberModel;
 import com.store_sample.store.domain.channels.model.ChannelAddedUserModel;
+import com.store_sample.store.domain.channels.model.ChannelDeletedUserModel;
 import com.store_sample.store.domain.channels.model.CreateChannelModel;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
+import com.store_sample.store.domain.channels.model.FindIdChannelModel;
 import com.store_sample.store.domain.channels.model.UpdateChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.command.ChannelAddedUserCommand;
+import com.store_sample.store.service.channel.command.ChannelDeletedUserCommand;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
 import com.store_sample.store.service.channel.command.UpdateChannelCommand;
 import java.util.List;
@@ -44,19 +48,23 @@ public class ChannelService {
     return channelDomainService.findAll();
   }
 
-  public GetChannelRes findById(int id) {
+  public FindIdChannelModel findById(int id) {
     TblChannels channel = channelDomainService.findById(id);
-    GetChannelRes res = new GetChannelRes();
-    res.setId(channel.getId());
-    res.setName(channel.getName());
+    FindIdChannelModel model = new FindIdChannelModel();
 
-    res.setMembers(channel.getChannelMembers().stream()
-        .map(m -> new MemberResponse(
+    if (channel == null) {
+      throw new StopProcessingException(ResponseCode.CHANNEL_NOT_FOUND);
+    }
+
+    model.setId(channel.getId());
+    model.setName(channel.getName());
+    model.setChannelMembers(channel.getChannelMembers().stream()
+        .map(m -> new ChannelMemberModel(
             m.getUser().getId(),
             m.getUser().getUsername()
         ))
         .toList());
-    return res;
+    return model;
   }
 
   @Transactional
@@ -68,5 +76,14 @@ public class ChannelService {
     model.setChannelId(command.getChannelId());
     model.setUserIds(command.getUserIds());
     channelDomainService.channelAddedUser(model);
+  }
+
+  @Transactional
+  public void channelDeletedUser(ChannelDeletedUserCommand command) {
+    
+    ChannelDeletedUserModel model = new ChannelDeletedUserModel();
+    model.setChannelId(command.getChannelId());
+    model.setUserIds(command.getUserIds());
+    channelDomainService.channelDeletedUser(model);
   }
 }

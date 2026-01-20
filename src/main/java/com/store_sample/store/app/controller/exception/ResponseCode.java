@@ -5,6 +5,7 @@ import lombok.Getter;
 public enum ResponseCode {
   OK("OK001", ""),
   CHANNEL_NOT_FOUND("NF0001", "チャンネルが存在しません。"),
+  USER_NOT_FOUND("NF0001", "ユーザーが存在しません。"),
   DUPLICATE_CHANNEL_MEMBER("DU0001", "%sと%sの組み合わせは既に存在しています。"),
   ;
 

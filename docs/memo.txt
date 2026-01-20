@@ -1,19 +1,11 @@
 - intelliJの使い方
+    - 詳しく調べる
 
-- migrationについて
-    - userにuserId持たせる
-    - channelに代表のuserId
-    - messageに投稿者のuserId
-- フォルダ構造変更
-    - auth
-    - channel
-    - message
+- message
+    - 作成
+    - channelsの詳細に一覧をつける
 
-- channelsについて
-    - update, delete更新
-    - メンバー追加
-- JPAにきりかえ
-  - チャンネル詳細を取得した時にチャンネルに所属するユーザをうまく取得できてない
+- 各所バリデーション追加
 
 - フロント作成
     - ログイン画面

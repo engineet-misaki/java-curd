@@ -1,5 +1,6 @@
 package com.store_sample.store.app.controller.channel.dto.get;
 
+import com.store_sample.store.domain.channel_members.model.ChannelMemberModel;
 import java.util.List;
 import lombok.Data;
 
@@ -8,6 +9,6 @@ public class GetChannelRes {
 
   private int id;
   private String name;
-  List<MemberResponse> members;
+  List<ChannelMemberModel> members;
 }
 

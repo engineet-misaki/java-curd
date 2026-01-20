@@ -4,14 +4,18 @@ import com.store_sample.store.app.controller.channel.dto.add_user.AddUserReq;
 import com.store_sample.store.app.controller.channel.dto.add_user.AddUserRes;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.create.CreateChannelRes;
+import com.store_sample.store.app.controller.channel.dto.delete_user.DeleteUserReq;
+import com.store_sample.store.app.controller.channel.dto.delete_user.DeleteUserRes;
 import com.store_sample.store.app.controller.channel.dto.get.GetChannelRes;
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelReq;
 import com.store_sample.store.app.controller.channel.dto.update.UpdateChannelRes;
 import com.store_sample.store.domain.channels.model.FindAllChannelModel;
+import com.store_sample.store.domain.channels.model.FindIdChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
 import com.store_sample.store.infrastructure.channels.TblChannels;
 import com.store_sample.store.service.channel.ChannelService;
 import com.store_sample.store.service.channel.command.ChannelAddedUserCommand;
+import com.store_sample.store.service.channel.command.ChannelDeletedUserCommand;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
 import com.store_sample.store.service.channel.command.UpdateChannelCommand;
 import java.util.List;
@@ -76,7 +80,12 @@ public class ChannelController {
   @GetMapping("/{id}")
   public GetChannelRes findById(@PathVariable("id") int id) {
 
-    return channelService.findById(id);
+    FindIdChannelModel model = channelService.findById(id);
+    GetChannelRes res = new GetChannelRes();
+    res.setId(model.getId());
+    res.setName(model.getName());
+    res.setMembers(model.getChannelMembers());
+    return res;
   }
 
   @PostMapping("/{id}/add-user")
@@ -87,6 +96,18 @@ public class ChannelController {
     channelService.channelAddedUser(command);
 
     AddUserRes res = new AddUserRes();
+    res.setMsg("成功");
+    return res;
+  }
+
+  @PostMapping("/{id}/delete-user")
+  public DeleteUserRes deleteUser(@PathVariable("id") int id, @RequestBody DeleteUserReq request) {
+    ChannelDeletedUserCommand command = new ChannelDeletedUserCommand();
+    command.setChannelId(id);
+    command.setUserIds(request.getUserIds());
+    channelService.channelDeletedUser(command);
+
+    DeleteUserRes res = new DeleteUserRes();
     res.setMsg("成功");
     return res;
   }

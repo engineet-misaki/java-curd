@@ -2,7 +2,7 @@ package com.store_sample.store.domain.auth.service;
 
 import com.store_sample.store.domain.auth.model.CustomUserDetails;
 import com.store_sample.store.domain.users.model.DetailUserWithPasswordModel;
-import com.store_sample.store.domain.users.service.UserRepository;
+import com.store_sample.store.domain.users.service.UserDomainService;
 import java.util.List;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,16 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-  private final UserRepository userRepository;
+  private final UserDomainService userDomainService;
 
-  public CustomUserDetailsService(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public CustomUserDetailsService(UserDomainService userDomainService) {
+    this.userDomainService = userDomainService;
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    DetailUserWithPasswordModel user = userRepository.findWithPassword(username);
+    DetailUserWithPasswordModel user = userDomainService.findWithPassword(username);
 
     List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
 

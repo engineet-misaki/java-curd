@@ -14,4 +14,9 @@
     SELECT * FROM users
     WHERE username = #{name}
   </select>
+  <select id="findById"
+    resultType="com.store_sample.store.domain.users.model.DetailUserModel">
+    SELECT * FROM users
+    WHERE id = #{id}
+  </select>
 </mapper>

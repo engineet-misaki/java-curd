@@ -1,7 +1,10 @@
 package com.store_sample.store.domain.users.service;
 
 import com.store_sample.store.domain.users.model.CreateUserModel;
+import com.store_sample.store.domain.users.model.DetailUserModel;
 import com.store_sample.store.domain.users.model.DetailUserWithPasswordModel;
+import com.store_sample.store.infrastructure.users.JpaUserRepository;
+import com.store_sample.store.infrastructure.users.TblUsers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserDomainService {
 
   private final UserRepository userRepository;
+  private final JpaUserRepository jpaUserRepository;
 
   public CreateUserModel save(CreateUserModel user) {
     userRepository.insert(user);
@@ -19,5 +23,13 @@ public class UserDomainService {
 
   public DetailUserWithPasswordModel findWithPassword(String name) {
     return userRepository.findWithPassword(name);
+  }
+
+  public DetailUserModel MybatisFindById(int id) {
+    return userRepository.findById(id);
+  }
+
+  public TblUsers findById(int id) {
+    return jpaUserRepository.findById(id).orElse(null);
   }
 }
