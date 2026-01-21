@@ -1,9 +1,8 @@
-package com.store_sample.store.infrastructure.users;
+package com.store_sample.store.infrastructure.mybatis.users;
 
 import com.store_sample.store.domain.users.model.CreateUserModel;
 import com.store_sample.store.domain.users.model.DetailUserModel;
 import com.store_sample.store.domain.users.model.DetailUserWithPasswordModel;
-import com.store_sample.store.domain.users.service.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

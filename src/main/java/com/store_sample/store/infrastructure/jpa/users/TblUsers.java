@@ -1,8 +1,8 @@
-package com.store_sample.store.infrastructure.users;
+package com.store_sample.store.infrastructure.jpa.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.store_sample.store.infrastructure.channel_members.TblChannelMembers;
-import com.store_sample.store.infrastructure.channels.TblChannels;
+import com.store_sample.store.infrastructure.jpa.channel_members.TblChannelMembers;
+import com.store_sample.store.infrastructure.jpa.channels.TblChannels;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +36,7 @@ public class TblUsers {
   @Column(name = "enabled", nullable = false)
   private Boolean enabled;
 
-  @Column(name = "role", nullable = true)
+  @Column(name = "role")
   private String role;
 
   @OneToMany(

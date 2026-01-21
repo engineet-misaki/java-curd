@@ -10,7 +10,7 @@ import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.model.FindIdChannelModel;
 import com.store_sample.store.domain.channels.model.UpdateChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
-import com.store_sample.store.infrastructure.channels.TblChannels;
+import com.store_sample.store.infrastructure.jpa.channels.TblChannels;
 import com.store_sample.store.service.channel.command.ChannelAddedUserCommand;
 import com.store_sample.store.service.channel.command.ChannelDeletedUserCommand;
 import com.store_sample.store.service.channel.command.CreateChannelCommand;
@@ -80,7 +80,7 @@ public class ChannelService {
 
   @Transactional
   public void channelDeletedUser(ChannelDeletedUserCommand command) {
-    
+
     ChannelDeletedUserModel model = new ChannelDeletedUserModel();
     model.setChannelId(command.getChannelId());
     model.setUserIds(command.getUserIds());

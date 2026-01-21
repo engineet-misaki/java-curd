@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.store_sample.store.infrastructure.channels.ChannelMapper">
+<mapper namespace="com.store_sample.store.infrastructure.mybatis.channels.ChannelMapper">
   <insert id="insert"
     parameterType="com.store_sample.store.domain.channels.model.CreateChannelModel"
     useGeneratedKeys="true" keyProperty="id">

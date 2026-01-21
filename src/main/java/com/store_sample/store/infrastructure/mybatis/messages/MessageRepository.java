@@ -1,4 +1,4 @@
-package com.store_sample.store.domain.messages.service;
+package com.store_sample.store.infrastructure.mybatis.messages;
 
 import com.store_sample.store.domain.messages.model.Message;
 import java.util.List;

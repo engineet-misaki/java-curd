@@ -1,6 +1,7 @@
 package com.store_sample.store.domain.messages.service;
 
 import com.store_sample.store.domain.messages.model.Message;
+import com.store_sample.store.infrastructure.mybatis.messages.MessageRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

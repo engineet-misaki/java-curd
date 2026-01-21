@@ -1,6 +1,6 @@
-package com.store_sample.store.infrastructure.channels;
+package com.store_sample.store.infrastructure.jpa.channels;
 
-import com.store_sample.store.infrastructure.channel_members.TblChannelMembers;
+import com.store_sample.store.infrastructure.jpa.channel_members.TblChannelMembers;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.store_sample.store.infrastructure.channels;
+package com.store_sample.store.infrastructure.jpa.channels;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
-package com.store_sample.store.infrastructure.channel_members;
+package com.store_sample.store.infrastructure.jpa.channel_members;
 
-import com.store_sample.store.infrastructure.channels.TblChannels;
-import com.store_sample.store.infrastructure.users.TblUsers;
+import com.store_sample.store.infrastructure.jpa.channels.TblChannels;
+import com.store_sample.store.infrastructure.jpa.users.TblUsers;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -54,7 +54,7 @@ public class TblChannelMembers {
     this.channel = channel;
     this.joinedAt = LocalDateTime.now();
   }
-  
+
   // equals / hashCode（業務キー）
   @Override
   public boolean equals(Object o) {
