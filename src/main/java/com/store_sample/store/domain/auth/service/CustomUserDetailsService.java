@@ -26,11 +26,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
 
-    return new CustomUserDetails(
+    var customUser = new CustomUserDetails(
         user.getUsername(),
         user.getPassword(),
         user.getRole(),
         authorities
     );
+    customUser.setId(user.getId());
+    return customUser;
   }
 }

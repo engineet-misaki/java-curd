@@ -33,4 +33,8 @@ public class UserDomainService {
   public TblUsers findById(int id) {
     return jpaUserRepository.findById(id).orElse(null);
   }
+
+  public TblUsers findByName(String name) {
+    return jpaUserRepository.findByUsername(name).orElse(null);
+  }
 }

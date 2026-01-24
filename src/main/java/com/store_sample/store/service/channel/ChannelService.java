@@ -10,6 +10,8 @@ import com.store_sample.store.domain.channels.model.FindAllChannelModel;
 import com.store_sample.store.domain.channels.model.FindIdChannelModel;
 import com.store_sample.store.domain.channels.model.UpdateChannelModel;
 import com.store_sample.store.domain.channels.service.ChannelDomainService;
+import com.store_sample.store.domain.messages.model.MessageReturnModel;
+import com.store_sample.store.domain.users.model.DetailUserModel;
 import com.store_sample.store.infrastructure.jpa.channels.TblChannels;
 import com.store_sample.store.service.channel.command.ChannelAddedUserCommand;
 import com.store_sample.store.service.channel.command.ChannelDeletedUserCommand;
@@ -64,6 +66,15 @@ public class ChannelService {
             m.getUser().getUsername()
         ))
         .toList());
+    model.setMessages(channel.getMembers().stream()
+        .map(m -> {
+          DetailUserModel userModel = new DetailUserModel();
+          userModel.setId(m.getUser().getId());
+          userModel.setUsername(m.getUser().getUsername());
+          userModel.setRole(m.getUser().getRole());
+          userModel.setEnabled(m.getUser().getEnabled());
+          return new MessageReturnModel(m.getId(), m.getText(), userModel, m.getTimestamp());
+        }).toList());
     return model;
   }
 

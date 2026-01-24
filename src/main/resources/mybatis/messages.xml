@@ -5,9 +5,9 @@
 <mapper namespace="com.store_sample.store.infrastructure.mybatis.messages.MessageMapper">
   <insert id="insert" parameterType="com.store_sample.store.domain.messages.model.Message">
     INSERT INTO messages
-    (id, channel_id, text, username, timestamp)
+    (id, channel_id, text, user_id, timestamp)
     VALUES
-    (#{id}, #{channelId}, #{text}, #{username}, #{timestamp})
+    (#{id}, #{channelId}, #{text}, #{userId}, #{timestamp})
   </insert>
   <select id="find" resultType="com.store_sample.store.domain.messages.model.Message">
     SELECT * FROM messages

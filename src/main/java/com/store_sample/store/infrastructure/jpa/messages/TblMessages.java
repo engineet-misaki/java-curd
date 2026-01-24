@@ -1,6 +1,7 @@
 package com.store_sample.store.infrastructure.jpa.messages;
 
 import com.store_sample.store.infrastructure.jpa.channels.TblChannels;
+import com.store_sample.store.infrastructure.jpa.users.TblUsers;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +24,7 @@ public class TblMessages {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private int id;
+  private String id;
 
   @Column(name = "text", nullable = false)
   private String text;
@@ -34,4 +35,8 @@ public class TblMessages {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "channel_id", nullable = false)
   private TblChannels channel;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private TblUsers user;
 }

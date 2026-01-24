@@ -85,6 +85,7 @@ public class ChannelController {
     res.setId(model.getId());
     res.setName(model.getName());
     res.setMembers(model.getChannelMembers());
+    res.setMessages(model.getMessages());
     return res;
   }
 

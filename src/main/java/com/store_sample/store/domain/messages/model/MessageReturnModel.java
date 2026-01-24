@@ -1,20 +1,19 @@
 package com.store_sample.store.domain.messages.model;
 
+import com.store_sample.store.domain.users.model.DetailUserModel;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Message {
+public class MessageReturnModel {
 
   private String id;
 
-  private int channelId;
-
   private String text;
 
-  private int userId;
+  private DetailUserModel user;
 
   private LocalDateTime timestamp;
 }
